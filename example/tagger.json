@@ -1,0 +1,60 @@
+{
+    "regexes": {
+        "length-too-short": "^[\\s\\S]{0,5}$",
+        "length-short": "^[\\s\\S]{6,1500}$",
+        "length-medium": "^[\\s\\S]{1501,5000}$",
+        "length-long": "^[\\s\\S]{5001,15000}$",
+        "length-essay": "^[\\s\\S]{15001,100000}$",
+        "length-too-long": "^[\\s\\S]{100001,}$",
+
+        "code-php": "(\\sphp\\s|<\\?php|composer)",
+        "code-javascript": "\\sjavascript\\s",
+        "code-node": "(node\\.js|nodejs)",
+        "code-golang": "golang",
+
+        "slideshare-url": "slideshare.net",
+        "speakerdeck-url": "speakerdeck.com",
+        "slideshare-embed": "https://www.slideshare.net/slideshow/embed_code",
+        "speakerdeck-embed": "speakerdeck-embed",
+
+        "is-pdf": ".pdf$",
+        "hacker-news": "ycombinator",
+        "medium": "https://medium.com",
+        "devto": "https://dev.to",
+        "lifehacker": "lifehacker.com",
+        "twitter": "twitter.com",
+        "theverge": "theverge.com",
+        "youtube": "youtube.com"
+    },
+    "tags": {
+        "url": {
+            "is-pdf": ["is-pdf"],
+            "has-slides": ["slideshare-url", "speakerdeck-url"],
+            "site-hn": ["hacker-news"],
+            "site-mediumesque": ["medium", "devto"],
+            "site-lifehacker": ["lifehacker"],
+            "site-verge": ["theverge"],
+            "site-twitter": ["twitter"],
+            "youtube": ["youtube"]
+        },
+        "content": {
+            "length-error": ["length-too-short","length-too-long"],
+            "length-short": ["length-short"],
+            "length-medium": ["length-medium"],
+            "length-long": ["length-long"],
+            "length-essay": ["length-essay"],
+            "verge-essays": [["length-essay", "theverge"]]
+        },
+        "html": {
+            "code-php": ["code-php"],
+            "code-javascript": ["code-javascript"],
+            "code-node": ["code-node"],
+            "code-golang": ["code-golang"],
+            "has-slides": ["slideshare-embed", "speakerdeck-embed"]
+        }
+    },
+    "cache": {
+        "engine": "file",
+        "tmpDir": "/tmp"
+    }
+}

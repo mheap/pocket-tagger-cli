@@ -1,0 +1,33 @@
+{
+  "name": "pocket-tagger-cli",
+  "version": "0.1.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc mocha",
+    "check-coverage": "nyc check-coverage --lines 100 --branches 100 --functions=100 --statements 100",
+    "test-html": "nyc --reporter html mocha",
+    "lint": "eslint src test",
+    "lint-fix": "eslint --fix src test"
+  },
+  "author": "Michael Heap <m@michaelheap.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^4.17.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "mocha": "^5.0.0",
+    "nyc": "^11.4.1",
+    "prettier": "^1.10.2",
+    "sinon": "^4.2.2"
+  },
+  "dependencies": {
+    "commander": "^2.14.1",
+    "pocket-tagger": "^0.0.3"
+  },
+  "bin": {
+    "pocket-tagger": "./bin/pocket-tagger"
+  }
+}
