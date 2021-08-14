@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "commander": "^2.20.3",
-    "pocket-tagger": "^0.0.3"
+    "pocket-tagger": "^0.1.0"
   },
   "bin": {
     "pocket-tagger": "./bin/pocket-tagger"

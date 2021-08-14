@@ -3,59 +3,76 @@
 "use strict";
 
 function main(args) {
-    const fs = require("fs");
-    const path = require("path");
-    const program = require("commander");
-    const PocketTagger = require("pocket-tagger");
+  const fs = require("fs");
+  const path = require("path");
+  const program = require("commander");
+  const PocketTagger = require("pocket-tagger");
 
-    const packageDetails = require(path.join(__dirname, "..", "package.json"));
+  const packageDetails = require(path.join(__dirname, "..", "package.json"));
 
-    const homeFolder = process.env[process.platform == "win32" ? "USERPROFILE" : "HOME"];
-    const pocketDirectory = path.resolve(homeFolder, ".pocket");
-    const defaultTaggerConfigPath = path.resolve(pocketDirectory, "tagger.json");
+  const homeFolder =
+    process.env[process.platform == "win32" ? "USERPROFILE" : "HOME"];
+  const pocketDirectory = path.resolve(homeFolder, ".pocket");
+  const defaultTaggerConfigPath = path.resolve(pocketDirectory, "tagger.json");
 
-    program
-        .version(packageDetails.version)
-        .option('-g, --generate <path>', 'Create an example configuration')
-        .option('-c, --config [path]', 'Tag config file to use', defaultTaggerConfigPath)
-        .option('-p, --profile [name]', 'Profile from ~/.pocket/credentials to use', "default")
-        .parse(args);
+  program
+    .version(packageDetails.version)
+    .option("-g, --generate <path>", "Create an example configuration")
+    .option(
+      "-c, --config [path]",
+      "Tag config file to use",
+      defaultTaggerConfigPath
+    )
+    .option(
+      "-p, --profile [name]",
+      "Profile from ~/.pocket/credentials to use",
+      "default"
+    )
+    .parse(args);
 
-    if (program.generate) {
-        const example = fs.readFileSync(path.join(__dirname,"..", "example", "tagger.json"));
-        fs.writeFileSync(program.generate, example);
-        process.exit(0);
-    }
+  if (program.generate) {
+    const example = fs.readFileSync(
+      path.join(__dirname, "..", "example", "tagger.json")
+    );
+    fs.writeFileSync(program.generate, example);
+    process.exit(0);
+  }
 
-    let config;
-    try {
-        config = JSON.parse(fs.readFileSync(program.config));
-    } catch (e) {
-        throw new Error(program.config + ' must exist and be a valid JSON definition');
-    }
+  let config;
+  try {
+    config = JSON.parse(fs.readFileSync(program.config));
+  } catch (e) {
+    throw new Error(
+      program.config + " must exist and be a valid JSON definition"
+    );
+  }
 
-    if (!config.regexes) {
-        throw new Error("Your config must contain a 'regexes' section");
-    }
+  if (!config.regexes) {
+    throw new Error("Your config must contain a 'regexes' section");
+  }
 
-    if (!config.tags) {
-        throw new Error("Your config must contain a 'tags' section");
-    }
+  if (!config.tags) {
+    throw new Error("Your config must contain a 'tags' section");
+  }
 
-    return PocketTagger(
-        program.profile,
-        config.regexes,
-        config.tags,
-        config.cache
-    ).then(function(tagger) {
-        tagger.run().then(function(){
-            console.log("All urls processed");
-        });
+  return PocketTagger(
+    program.profile,
+    config.regexes,
+    config.tags,
+    config.cache
+  )
+    .then(function(tagger) {
+      tagger.run().then(function(aa) {
+        console.log("All urls processed");
+      });
+    })
+    .catch(function(e) {
+      console.log(e);
     });
 }
 
 if (require.main === module) {
-    main(process.argv);
+  main(process.argv);
 }
 
 module.exports = main;
