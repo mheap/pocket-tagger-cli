@@ -14,7 +14,6 @@ function main(args) {
     process.env[process.platform == "win32" ? "USERPROFILE" : "HOME"];
   const pocketDirectory = path.resolve(homeFolder, ".pocket");
   const defaultTaggerConfigPath = path.resolve(pocketDirectory, "tagger.json");
-
   program
     .version(packageDetails.version)
     .option("-g, --generate <path>", "Create an example configuration")
@@ -30,20 +29,22 @@ function main(args) {
     )
     .parse(args);
 
-  if (program.generate) {
+  const opts = program.opts();
+
+  if (opts.generate) {
     const example = fs.readFileSync(
       path.join(__dirname, "..", "example", "tagger.json")
     );
-    fs.writeFileSync(program.generate, example);
+    fs.writeFileSync(opts.generate, example);
     process.exit(0);
   }
 
   let config;
   try {
-    config = JSON.parse(fs.readFileSync(program.config));
+    config = JSON.parse(fs.readFileSync(opts.config));
   } catch (e) {
     throw new Error(
-      program.config + " must exist and be a valid JSON definition"
+      opts.config + " must exist and be a valid JSON definition"
     );
   }
 
@@ -56,17 +57,17 @@ function main(args) {
   }
 
   return PocketTagger(
-    program.profile,
+    opts.profile,
     config.regexes,
     config.tags,
     config.cache
   )
-    .then(function(tagger) {
-      tagger.run().then(function(aa) {
+    .then(function (tagger) {
+      tagger.run().then(function (aa) {
         console.log("All urls processed");
       });
     })
-    .catch(function(e) {
+    .catch(function (e) {
       console.log(e);
     });
 }
