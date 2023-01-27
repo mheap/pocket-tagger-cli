@@ -8,7 +8,7 @@ const program = require("../bin/pocket-tagger");
 
 describe("run()", function() {
   beforeEach(async function() {
-    this.sandbox = sinon.sandbox.create();
+    this.sandbox = sinon.createSandbox();
   });
 
   afterEach(function() {
