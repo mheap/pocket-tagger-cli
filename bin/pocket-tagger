@@ -3,6 +3,7 @@
 "use strict";
 
 function main(args) {
+  process.on("warning", (e) => console.warn(e.stack));
   const fs = require("fs");
   const path = require("path");
   const program = require("commander");
@@ -43,9 +44,7 @@ function main(args) {
   try {
     config = JSON.parse(fs.readFileSync(opts.config));
   } catch (e) {
-    throw new Error(
-      opts.config + " must exist and be a valid JSON definition"
-    );
+    throw new Error(opts.config + " must exist and be a valid JSON definition");
   }
 
   if (!config.regexes) {
@@ -56,12 +55,7 @@ function main(args) {
     throw new Error("Your config must contain a 'tags' section");
   }
 
-  return PocketTagger(
-    opts.profile,
-    config.regexes,
-    config.tags,
-    config.cache
-  )
+  return PocketTagger(opts.profile, config.regexes, config.tags, config.cache)
     .then(function (tagger) {
       tagger.run().then(function (aa) {
         console.log("All urls processed");
